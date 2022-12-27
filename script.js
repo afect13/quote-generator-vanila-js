@@ -16,27 +16,25 @@ function hideLoading() {
 
 async function getQuote() {
   showLoading();
-  const proxyURL = "https://cors-anywhere.herokuapp.com/";
-  const apiURL =
-    "http://api.forismatic.com/api/1.0/?method=getQuote&lang=ru&format=json";
+  const apiURL = "https://favqs.com/api/qotd";
   try {
-    const response = await fetch(proxyURL + apiURL);
+    const response = await fetch(apiURL);
     const data = await response.json();
-    if (data.quoteAuthor === "") {
-      authorTxt.innerText = "Неизвестный автор";
+    if (data.quote.author === "") {
+      authorTxt.innerText = "Unknown author";
     } else {
-      authorTxt.innerText = data.quoteAuthor;
+      authorTxt.innerText = data.quote.author;
     }
-    if (data.quoteText.length > 50) {
+    if (data.quote.body.length > 50) {
       quoteTxt.classList.add("long-quote");
     } else {
       quoteTxt.classList.remove("long-quote");
     }
-
-    quoteTxt.innerText = data.quoteText;
+    console.log(data.quote.body);
+    quoteTxt.innerText = data.quote.body;
     hideLoading();
   } catch (error) {
-    console.log("Ошибка", error);
+    console.log("Error", error);
   }
 }
 
